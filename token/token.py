@@ -1,13 +1,15 @@
 from enum import Enum
+from typing import Dict
 
 
 class TokenType(Enum):
+    # Special tokens
     ILLEGAL = "ILLEGAL"
     EOF = "EOF"
 
-    # Identifiers
-    IDENT = "IDENT"
-    INT = "INT"
+    # Identifiers and literals
+    IDENTIFIER = "IDENTIFIER"
+    INTEGER = "INTEGER"
 
     # Operators
     ASSIGN = "="
@@ -16,20 +18,18 @@ class TokenType(Enum):
     BANG = "!"
     ASTERISK = "*"
     SLASH = "/"
-    EQ = "=="
-    NOT_EQ = "!="
-
-    LT = "<"
-    GT = ">"
+    EQUALS = "=="
+    NOT_EQUALS = "!="
+    LESS_THAN = "<"
+    GREATER_THAN = ">"
 
     # Delimiters
     COMMA = ","
     SEMICOLON = ";"
-
-    LPAREN = "("
-    RPAREN = ")"
-    LBRACE = "{"
-    RBRACE = "}"
+    LEFT_PAREN = "("
+    RIGHT_PAREN = ")"
+    LEFT_BRACE = "{"
+    RIGHT_BRACE = "}"
 
     # Keywords
     FUNCTION = "FUNCTION"
@@ -41,22 +41,40 @@ class TokenType(Enum):
     FALSE = "FALSE"
 
 
-class Token():
-    def __init__(self, type: TokenType, literal: str):
-        self.type = type
+class Token:
+    """Represents a token in the programming language."""
+
+    def __init__(self, token_type: TokenType, literal: str):
+        """Initialize a new token.
+
+        Args:
+            token_type: The type of the token
+            literal: The literal string value of the token
+        """
+        self.type = token_type
         self.literal = literal
 
 
-keywords = {
-    "fn":     TokenType.FUNCTION,
+# Mapping of keywords to their corresponding token types
+KEYWORDS: Dict[str, TokenType] = {
+    "fn": TokenType.FUNCTION,
     "return": TokenType.RETURN,
-    "let":    TokenType.LET,
-    "if":     TokenType.IF,
-    "else":   TokenType.ELSE,
-    "true":   TokenType.TRUE,
-    "false":  TokenType.FALSE,
+    "let": TokenType.LET,
+    "if": TokenType.IF,
+    "else": TokenType.ELSE,
+    "true": TokenType.TRUE,
+    "false": TokenType.FALSE,
 }
 
 
-def LookupIdent(ident: str) -> TokenType:
-    return keywords.get(ident, TokenType.IDENT)
+def lookup_identifier(identifier: str) -> TokenType:
+    """Look up an identifier and return its token type.
+
+    Args:
+        identifier: The identifier string to look up
+
+    Returns:
+        The corresponding token type for keywords,
+        or TokenType.IDENTIFIER for other identifiers
+    """
+    return KEYWORDS.get(identifier, TokenType.IDENTIFIER)

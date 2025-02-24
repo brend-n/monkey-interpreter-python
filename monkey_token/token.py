@@ -42,7 +42,7 @@ class TokenType(Enum):
 
 
 class Token:
-    """Represents a token in the programming language."""
+    """Represents a token in the monkey programming language."""
 
     def __init__(self, token_type: TokenType, literal: str):
         """Initialize a new token.
@@ -53,6 +53,13 @@ class Token:
         """
         self.type = token_type
         self.literal = literal
+
+    def __eq__(self, other):
+        print(f"self.type:{self.type}, other.type:{other.type}")
+        if not isinstance(other, Token):
+            # don't attempt to compare against unrelated types
+            return NotImplemented
+        return self.type == other.type and self.literal == other.literal
 
 
 # Mapping of keywords to their corresponding token types
